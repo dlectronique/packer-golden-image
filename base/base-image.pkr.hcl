@@ -4,34 +4,11 @@ packer {
       version = ">= 1.0.4"
       source  = "github.com/hashicorp/amazon"
     }
-
-    azure = {
-      version = ">= 1.0.0"
-      source  = "github.com/hashicorp/azure"
-    }
   }
 }
 
-source "azure-arm" "ubuntu" {
-  use_azure_cli_auth = true
-
-  os_type         = "Linux"
-  image_publisher = "canonical"
-  image_offer     = "0001-com-ubuntu-server-focal"
-  image_sku       = "20_04-lts-gen2"
-
-  vm_size = "Standard_B1ls"
-
-  build_resource_group_name = "strawb-packerdemo"
-
-  managed_image_resource_group_name = "strawb-packerdemo"
-  managed_image_name                = "strawbtest-demo-base-v0.1.0"
-
-  ssh_username = "ubuntu"
-}
-
 source "amazon-ebs" "ubuntu" {
-  ami_name = "strawbtest/demo/base/v0.1.0"
+  ami_name = "domi-hcp-packer/demo/base/v0.1.0"
 
   instance_type = "t2.micro"
 
@@ -45,8 +22,8 @@ source "amazon-ebs" "ubuntu" {
   ]
 
   tags = {
-    Name    = "StrawbTest"
-    Owner   = "lucy.davinhart@hashicorp.com"
+    Name    = "DomiTest"
+    Owner   = "dominique@hashicorp.com"
     Purpose = "Base Image for Packer Demo"
     TTL     = "24h"
     Packer  = true
@@ -90,7 +67,6 @@ Golden Base Image
 
   sources = [
     "source.amazon-ebs.ubuntu",
-    "source.azure-arm.ubuntu",
   ]
 
   provisioner "shell" {
